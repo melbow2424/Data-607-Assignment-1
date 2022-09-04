@@ -1,0 +1,55 @@
+---
+title: "Data 607 Assignment 1"
+author: "Melissa Bowman"
+date: "September 4, 2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+In this assignment, dataset and subset are explored. The data chosen was the 2022 FiveThirtyEight Election Forecastdatasets (senate only) on fivethirtyeight.com (link: https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2022)
+
+The first part of the assignment is to read the data through its raw code for reproducibility. Here the data's raw code was extracted from a GitHub repository. In the original dataset a column name called cycle was changed to 2022_cycle and a subset of data was taken from when the mean number of senate seats held by democrats was more than 50. This is the threshold of control over the senate. 
+
+## Load libraries.
+```{r libraries}
+library(RCurl)
+library(dplyr)
+```
+## Import CSV from Raw File
+
+
+
+```{r reading csv file from Github}
+df = read.csv('https://projects.fivethirtyeight.com/2022-general-election-forecast-data/senate_national_toplines_2022.csv')
+```
+
+## Checking Variables
+
+You can also embed plots, for example:
+
+```{r head of df}
+head(df)
+
+```
+
+## Renaming a Column and Showing just Names of Column
+```{r}
+names(df)[names(df)=="cycle"] <- "2022_cycle"
+names(df)
+```
+## Subsetting Data
+
+Question for Subset Data: What date does the mean of the democratic party exceed 50? Why is this data interesting?
+
+```{r}
+df_col_exclude = 
+  df %>% select(-branch, -expression, -chamber_Dparty, -chamber_Rparty,
+                -p10_seats_Dparty, -p10_seats_Rparty)
+
+D_party_control_senate <- subset(df_col_exclude, mean_seats_Dparty > 50)
+
+
+head(D_party_control_senate %>% arrange(forecastdate))
+```
+
